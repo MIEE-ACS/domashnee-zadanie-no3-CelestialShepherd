@@ -1,5 +1,6 @@
 using System.Windows;
 
+
 namespace DZ_OOP_3
 {
     public partial class MainWindow : Window
@@ -35,12 +36,21 @@ namespace DZ_OOP_3
         // Функция, выполняющая шифрование и расшифрование
         public void MakeEncOrDec(string alphabet)
         {
+            int k = 0;
             string Text = InputTextTB.Text.ToUpper(), Code = InputCodeTB.Text.ToUpper(), Result = "";
             if (EncRB.IsChecked == true)
             {
                 for (int i = 0; i < Text.Length; i++)
                 {
-                    Result += alphabet[(alphabet.IndexOf(Text[i]) + alphabet.IndexOf(Code[i])) % alphabet.Length];
+                    if (Text[i] == ' ')
+                    {
+                        Result += " ";
+                    }
+                    else
+                    {
+                        Result += alphabet[(alphabet.IndexOf(Text[i]) + alphabet.IndexOf(Code[k % Code.Length]) + 1) % alphabet.Length];
+                        k++;
+                    }
                 }
                 OutputTB.Text = Result;
             }
@@ -48,7 +58,15 @@ namespace DZ_OOP_3
             {
                 for (int i = 0; i < Text.Length; i++)
                 {
-                    Result += alphabet[(alphabet.IndexOf(Text[i]) + alphabet.Length - alphabet.IndexOf(Code[i])) % alphabet.Length];
+                    if (Text[i] == ' ')
+                    {
+                        Result += " ";
+                    }
+                    else
+                    {
+                        Result += alphabet[(alphabet.IndexOf(Text[i]) + alphabet.Length - alphabet.IndexOf(Code[k % Code.Length]) - 1) % alphabet.Length];
+                        k++;
+                    }
                 }
                 OutputTB.Text = Result;
             }
@@ -62,41 +80,34 @@ namespace DZ_OOP_3
         {
             if (IsLettersOnly(InputTextTB.Text.ToUpper()) && IsLettersOnly(InputCodeTB.Text.ToUpper()))
             {
-                if (InputTextTB.Text.ToUpper().Length == InputCodeTB.Text.ToUpper().Length)
+                if (IsLatin(InputTextTB.Text) == IsLatin(InputCodeTB.Text))
                 {
-                    if (IsLatin(InputTextTB.Text) == IsLatin(InputCodeTB.Text))
+                    if (KirRB.IsChecked == true || LatRB.IsChecked == true)
                     {
-                        if (KirRB.IsChecked == true || LatRB.IsChecked == true)
+                        string alphabet;
+                        if (KirRB.IsChecked == true && !IsLatin(InputTextTB.Text) && !IsLatin(InputCodeTB.Text))
                         {
-                            string alphabet;
-                            if (KirRB.IsChecked == true && !IsLatin(InputTextTB.Text) && !IsLatin(InputCodeTB.Text))
-                            {
-                                alphabet = "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
-                                MakeEncOrDec(alphabet);
-                            }
-                            else if (LatRB.IsChecked == true && IsLatin(InputTextTB.Text) && IsLatin(InputCodeTB.Text))
-                            {
-                                alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-                                MakeEncOrDec(alphabet);
-                            }
-                            else
-                            {
-                                MessageBox.Show("Ошибка! Выбранный алфавит и алфавит введенных данных различаются.");
-                            }
+                            alphabet = "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
+                            MakeEncOrDec(alphabet);
+                        }
+                        else if (LatRB.IsChecked == true && IsLatin(InputTextTB.Text) && IsLatin(InputCodeTB.Text))
+                        {
+                            alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                            MakeEncOrDec(alphabet);
                         }
                         else
                         {
-                            MessageBox.Show("Ошибка! Не был выбран язык.");
+                            MessageBox.Show("Ошибка! Выбранный алфавит и алфавит введенных данных различаются.");
                         }
                     }
                     else
                     {
-                        MessageBox.Show("Ошибка! Текст и кодовое слово заданы в разных алфавитах");
+                        MessageBox.Show("Ошибка! Не был выбран язык.");
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Ошибка! Текст и кодовое слово должны быть одной длины.");
+                    MessageBox.Show("Ошибка! Текст и кодовое слово заданы в разных алфавитах");
                 }
             }
             else
