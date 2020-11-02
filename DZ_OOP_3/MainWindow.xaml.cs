@@ -87,7 +87,7 @@ namespace DZ_OOP_3
                         string alphabet;
                         if (KirRB.IsChecked == true && !IsLatin(InputTextTB.Text) && !IsLatin(InputCodeTB.Text))
                         {
-                            alphabet = "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
+                            alphabet = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
                             MakeEncOrDec(alphabet);
                         }
                         else if (LatRB.IsChecked == true && IsLatin(InputTextTB.Text) && IsLatin(InputCodeTB.Text))
